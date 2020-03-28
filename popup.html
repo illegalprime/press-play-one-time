@@ -10,9 +10,13 @@
         </style>
     </head>
     <body>
+        <p id="clock"></p>
         <form action="">
-            <input name="play" type="button" value="play"/>
-            <input name="pause" type="button" value="pause"/>
+            <label for="time">What time do you wanna play?</label>
+            <input name="time" type="text" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"/>
+            <input name="trigger" type="button" value="set time!" />
+            <!-- <input name="play" type="button" value="play"/> -->
+            <!-- <input name="pause" type="button" value="pause"/> -->
         </form>
         <p id="console"></p>
         <script src="popup.js"></script>

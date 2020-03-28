@@ -17,6 +17,7 @@ REPLY_ALL = {
 VIDEO_CONTROLS = {
     play: true,
     pause: true,
+    trigger: true,
 };
 
 chrome.runtime.onMessage.addListener(function(msg, sender, respond) {
@@ -30,7 +31,7 @@ chrome.runtime.onMessage.addListener(function(msg, sender, respond) {
     }
     else if (VIDEO_CONTROLS[msg.data]) {
         if (REPLY_ALL.VIDEO_FOUND.found) {
-            VIDEO_CONTROLS[msg.data]();
+            VIDEO_CONTROLS[msg.data](msg);
             respond({ success: true });
         }
         else {
@@ -47,6 +48,13 @@ function main(video) {
         },
         pause: function() {
             video.pause();
+        },
+        trigger: function(msg) {
+            var target = new Date(msg.date);
+            var now = new Date();
+            setTimeout(function() {
+                video.play();
+            }, target - now);
         },
     };
 }
