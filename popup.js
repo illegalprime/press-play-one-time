@@ -7,22 +7,8 @@ function send_message(msg, reply) {
     });
 }
 
-// document.querySelector('input[name=pause]').addEventListener('click', function() {
-//     var out = document.getElementById('console');
-//     send_message('pause', function(reply) {
-//         out.innerHTML = JSON.stringify(reply);
-//     });
-// });
-
-// document.querySelector('input[name=play]').addEventListener('click', function() {
-//     var out = document.getElementById('console');
-//     send_message('play', function(reply) {
-//         out.innerHTML = JSON.stringify(reply);
-//     });
-// });
-
 function make_date(time) {
-    var now = new Date();
+    var now = new Date(ServerDate.now());
     return new Date(
         now.getFullYear(), now.getMonth(), now.getDate(),
         time[0], time[1], time[2], 0
@@ -75,18 +61,20 @@ document.querySelector('input[name=seekbtn]').addEventListener('click', function
 
 var clock = document.getElementById('clock');
 setInterval(function() {
-    var today = new Date();
+    var today = new Date(ServerDate.now());
     var h = today.getHours();
     var m = today.getMinutes();
     var s = today.getSeconds();
+    var precision = ServerDate.getPrecision();
+    h = h < 10 ? "0" + h : h;
     m = m < 10 ? "0" + m : m;
     s = s < 10 ? "0" + s : s;
-    clock.innerHTML = h + ":" + m + ":" + s;
+    clock.innerHTML = h + ":" + m + ":" + s + " ~ " + precision + "ms";
 }, 100);
 
 var find_video = setInterval(function() {
     send_message('VIDEO_FOUND', function(reply) {
-        if (reply.found) {
+        if (reply && reply.found) {
             clearInterval(find_video);
             var out = document.getElementById('console');
             out.innerHTML = JSON.stringify({status: 'video tag found'});

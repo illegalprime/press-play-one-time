@@ -1,7 +1,3 @@
-// setInterval(function() {
-//     chrome.runtime.sendMessage({ data: 'HELLO CONTENT' });
-// }, 500);
-
 var find_video = setInterval(function() {
     var video_tag = document.getElementsByTagName('video');
     if (video_tag && video_tag.length > 0) {
@@ -51,13 +47,20 @@ function main(video) {
         },
         trigger: function(msg) {
             var target = new Date(msg.date);
-            var now = new Date();
+            var now = new Date(ServerDate.now());
             setTimeout(function() {
+                while (target > new Date(ServerDate.now())) {
+                    // spin
+                }
                 video.play();
-            }, target - now);
+            }, target - now - 1000);
         },
         seek: function(msg) {
             video.currentTime = msg.seek;
         }
     };
 }
+
+// setInterval(function() {
+//     console.log(ServerDate.toLocaleString() + " ± " + ServerDate.getPrecision() + " ms");
+// }, 1000);
