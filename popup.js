@@ -21,23 +21,32 @@ function send_message(msg, reply) {
 //     });
 // });
 
-function new_date(h, m, s) {
+function make_date(time) {
     var now = new Date();
-    return new Date(now.getFullYear(), now.getMonth(), now.getDate(), h, m, s, 0);
+    return new Date(
+        now.getFullYear(), now.getMonth(), now.getDate(),
+        time[0], time[1], time[2], 0
+    );
 }
 
-function make_date(time) {
-    var parsed = time.split(':');
-    parsed = [parseInt(parsed[0]), parseInt(parsed[1]), parseInt(parsed[2])];
-    return new_date(parsed[0], parsed[1], parsed[2]);
+function parse_time(time) {
+    var trimmed = time.trim().split(':');
+    if (trimmed.length === 3) {
+        var ints = trimmed.map(function(i) { return parseInt(i); });
+        var nanned = trimmed.find(function(i) { return isNaN(i); });
+        if (!nanned) {
+            return ints;
+        }
+    }
+    return null;
 }
 
 document.querySelector('input[name=trigger]').addEventListener('click', function() {
-    var time_elem = document.querySelector('input[name=time]');
-    var time = time_elem.value.trim();
     var out = document.getElementById('console');
-    if (/^[0-9]{2}:[0-9]{2}:[0-9]{2}$/.test(time)) {
-        var target = make_date(time);
+    var time_elem = document.querySelector('input[name=time]');
+    var parsed = parse_time(time_elem.value);
+    if (parsed) {
+        var target = make_date(parsed);
         out.innerHTML = 'trigger at ' + target;
         send_message({
             data: 'trigger',
@@ -46,6 +55,21 @@ document.querySelector('input[name=trigger]').addEventListener('click', function
     }
     else {
         out.innerHTML = JSON.stringify({ error: 'invalid date' });
+    }
+});
+
+document.querySelector('input[name=seekbtn]').addEventListener('click', function() {
+    var out = document.getElementById('console');
+    var time_elem = document.querySelector('input[name=seek]');
+    var parsed = parse_time(time_elem.value);
+    if (parsed) {
+        send_message({
+            data: 'seek',
+            seek: parsed[0] * 60 * 60 + parsed[1] * 60 + parsed[2],
+        });
+    }
+    else {
+        out.innerHTML = JSON.stringify({ error: 'invalid seek time' });
     }
 });
 

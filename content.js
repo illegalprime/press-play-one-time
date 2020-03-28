@@ -56,5 +56,8 @@ function main(video) {
                 video.play();
             }, target - now);
         },
+        seek: function(msg) {
+            video.currentTime = msg.seek;
+        }
     };
 }

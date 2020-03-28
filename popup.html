@@ -3,9 +3,14 @@
         <meta name="viewport" content="width=device-width" />
         <title>Let's Try to Sync</title>
         <style>
-         body {
-             padding: 0;
-             margin: 0;
+         #clock {
+             text-align: center;
+             font-family: monospace;
+             font-size: 24pt;
+             margin: 10px;
+         }
+         #console {
+             font-family: monospace;
          }
         </style>
     </head>
@@ -15,6 +20,10 @@
             <label for="time">What time do you wanna play?</label>
             <input name="time" type="text" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"/>
             <input name="trigger" type="button" value="set time!" />
+            <br/> <br/>
+            <label for="seek">Seek to a time:</label>
+            <input name="seek" type="text" pattern="[0-9]{2}:[0-9]{2}:[0-9]{2}"/>
+            <input name="seekbtn" type="button" value="seek!" />
             <!-- <input name="play" type="button" value="play"/> -->
             <!-- <input name="pause" type="button" value="pause"/> -->
         </form>
