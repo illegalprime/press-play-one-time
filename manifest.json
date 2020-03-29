@@ -1,10 +1,10 @@
 {
-    "name": "Getting Started Example",
+    "name": "Scynkk",
     "version": "1.0",
-    "description": "Build an Extension!",
+    "description": "Play a video at a certain time.",
     "manifest_version": 2,
     "browser_action": {
-        "default_title": "Kastt",
+        "default_title": "Scynkk",
         "default_popup": "popup.html"
     },
     "content_scripts": [

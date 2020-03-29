@@ -2,7 +2,11 @@ function send_message(msg, reply) {
     var message = typeof msg === 'string' ? { data: msg } : msg;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
 		    if (tabs && tabs.length > 0) {
-            chrome.tabs.sendMessage(tabs[0].id, message, reply);
+            chrome.tabs.sendMessage(tabs[0].id, message, function(response) {
+                var out = document.getElementById('console');
+                out.innerHTML = JSON.stringify(response);
+                reply(response);
+            });
         }
     });
 }
@@ -57,6 +61,21 @@ document.querySelector('input[name=seekbtn]').addEventListener('click', function
     else {
         out.innerHTML = JSON.stringify({ error: 'invalid seek time' });
     }
+});
+
+document.querySelector('input[name=pause]').addEventListener('click', function() {
+    send_message('pause');
+});
+
+document.querySelector('input[name=play]').addEventListener('click', function() {
+    send_message('play');
+});
+
+document.querySelector('input[name=reset]').addEventListener('click', function() {
+    send_message({
+        data: 'seek',
+        seek: 0,
+    });
 });
 
 var clock = document.getElementById('clock');

@@ -14,6 +14,7 @@ VIDEO_CONTROLS = {
     play: true,
     pause: true,
     trigger: true,
+    seek: true,
 };
 
 chrome.runtime.onMessage.addListener(function(msg, sender, respond) {
@@ -60,7 +61,3 @@ function main(video) {
         }
     };
 }
-
-// setInterval(function() {
-//     console.log(ServerDate.toLocaleString() + " ± " + ServerDate.getPrecision() + " ms");
-// }, 1000);
